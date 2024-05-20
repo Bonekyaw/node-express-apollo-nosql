@@ -33,14 +33,12 @@ MONGO_URI="mongodb://127.0.0.1/lucky"
 ```
 
 If you have something hard to solve,
-DM
+DM  
 <phonenai2014@gmail.com>  
-
 <https://www.facebook.com/phonenyo1986/>  
-
 <https://www.linkedin.com/in/phone-nyo-704596135>  
 
-###### Find more other Starter kits of mine ?   
+#### Find more other Starter kits of mine ?   
 
   Now you are here - [Express + Apollo server + mongoose - graphql api](https://github.com/Bonekyaw/node-express-apollo-nosql)  
   [Express + graphql js + mongoose - graphql api](https://github.com/Bonekyaw/node-express-nosql-graphql)  
