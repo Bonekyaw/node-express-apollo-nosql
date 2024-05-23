@@ -1,16 +1,16 @@
 ### This is Simple Express Starter Kit
 
-##### Node express + mongoose apollo graphql api 
+##### Apollo server + mongoose - graphql api 
 
 You can use it for your project. If it is useful for you,
 don't forget to give me a GitHub star, please.
 
-In this node/express template
+In this template
 
-   - Express framework
+   - Apollo server
    - NoSQL - Mongodb
    - Mongoose ODM
-   - graphql api ( apollo/server, graphql-file-loader, resolvers-composition, etc.)
+   - graphql api ( graphql-tools, graphql-file-loader, resolvers-composition, etc.)
    - JWT auth
    - bcrypt
    - express-validator 
