@@ -18,6 +18,25 @@ const resolvers = mergeResolvers(resolverFiles);
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
+mongoose
+.connect(process.env.MONGO_URI)   // Localhost - "mongodb://127.0.0.1/lucky"
+// .connect(process.env.MONGO_URL)   // Mogodb atlas
+.then((result) => {
+    // app.listen(8080); // localhost:8080
+    console.log("Sucessfully connected to mongodb Atlas");
+  })
+  .catch((err) => console.log(err));
+
+const server = new ApolloServer({ schema, resolvers });
+
+startStandaloneServer(server, {   
+  context: async ({ req, res }) => ({
+    token: req.headers.authorization || '',
+  }),
+  listen: { port: 8080 },
+}).then(({ url }) => {
+  console.log(`Server ready at ${url}`);
+});
 
 // ----------- Starting to use express-middleware----------
 // To use ES6 module, run - npm pkg set type="module"
@@ -58,27 +77,3 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 // Modified server startup
 // await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 // ----------- Ending to use express-middleware----------
-
-mongoose
-.connect(process.env.MONGO_URI)   // Localhost - "mongodb://127.0.0.1/lucky"
-// .connect(process.env.MONGO_URL)   // Mogodb atlas
-.then((result) => {
-    // app.listen(8080); // localhost:8080
-    console.log("Sucessfully connected to mongodb Atlas");
-  })
-  .catch((err) => console.log(err));
-
-const server = new ApolloServer({ schema, resolvers });
-
-// creates an Express app, then uses the Apollo instance as middleware and 
-// prepares our application to handle incoming requests
-startStandaloneServer(server, {   
-  // Your async context function should async and
-  // return an object
-  context: async ({ req, res }) => ({
-    token: req.headers.authorization || '',
-  }),
-  listen: { port: 8080 },
-}).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
-});

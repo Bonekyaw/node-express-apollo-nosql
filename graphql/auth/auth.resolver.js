@@ -3,9 +3,9 @@ require("dotenv").config();
 const Admin = require("../../models/admin");
 const Otp = require("../../models/otp");
 
-const { composeResolvers } = require("@graphql-tools/resolvers-composition");
+// const { composeResolvers } = require("@graphql-tools/resolvers-composition");
 const asyncHandler = require("express-async-handler");
-const { body, validationResult } = require("express-validator");
+// const { body, validationResult } = require("express-validator");
 // const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
