@@ -34,6 +34,17 @@ MONGO_URI="mongodb://127.0.0.1/lucky"
 TOKEN_SECRET="something hard to guest"
 
 ```
+Please note.   
+*TOKEN_SECRET* should be complex and hard to guest.  
+After git clone, it should be run.
+
+```
+npm install
+npm start
+
+```   
+Warning - every `*.graphql & *.resolver.js` must be inside two nested folders `./**/**/file` .  
+It's ok `./graphql/auth/auth.graphql` or `./graphql/product/product.graphql` or something like that.
 
 If you have something hard to solve,
 DM  
