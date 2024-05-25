@@ -23,7 +23,7 @@ For Mongodb Atlas
 
 ```
 MONGO_URL="mongodb+srv://<username>:<password>@cluster0.ropxgna.mongodb.net/lucky?retryWrites=true&w=majority"
-TOKEN_SECRET="something hard to guest"
+TOKEN_SECRET="something hard to guess"
 
 ```
 
@@ -31,11 +31,11 @@ For Local Mongodb server
 
 ```
 MONGO_URI="mongodb://127.0.0.1/lucky"
-TOKEN_SECRET="something hard to guest"
+TOKEN_SECRET="something hard to guess"
 
 ```
 Please note.   
-*TOKEN_SECRET* should be complex and hard to guest.  
+*TOKEN_SECRET* should be complex and hard to guess.  
 After git clone, it should be run.
 
 ```
