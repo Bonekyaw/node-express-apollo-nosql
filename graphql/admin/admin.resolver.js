@@ -11,16 +11,18 @@ const { GraphQLError } = require("graphql");
 
 const { checkAdminExist } = require("../../utils/check");
 const isAuth = require("../../utils/isAuth");
+const authorise = require("../../utils/authorise");
+const { offset, noCount, cursor } = require("../../utils/paginate");
 
 const resolvers = {
   Mutation: {
     uploadProfile: asyncHandler(async (parent, args, context, info) => {
-      let adminId = info.adminId;
+      let admin = info.admin;
       let imageUrl = args.userInput.imageUrl;
-      // eg. uploads/images/1716812081794-346315760-code_cafe_lab_black.png 
+      // eg. uploads/images/1716812081794-346315760-code_cafe_lab_black.png
       if (
         validator.isEmpty(imageUrl.trim()) ||
-        !validator.matches(imageUrl, "^uploads/images/.*.(png|jpg|jpeg)$")  // Hey you can remove
+        !validator.matches(imageUrl, "^uploads/images/.*.(png|jpg|jpeg)$") // Hey you can remove
       ) {
         throw new GraphQLError("This image url is invalid.", {
           extensions: {
@@ -32,9 +34,6 @@ const resolvers = {
 
       imageUrl = validator.escape(imageUrl);
 
-      const admin = await Admin.findById(adminId);
-      checkAdminExist(admin);
-
       admin.profile = imageUrl;
       await admin.save();
 
@@ -44,6 +43,24 @@ const resolvers = {
       };
     }),
     //
+  },
+  Query: {
+    // Pagination Query
+    paginateAdmins: asyncHandler(async (parent, args, context, info) => {
+      let { page, cursors, limit } = args;
+
+      const filters = {
+        status: "active",
+      };
+      const sort = { createdAt: -1 };
+      // const sort = "-createdAt";     // error will be in offset. I mean in aggregate function.
+
+      return offset(Admin, page, limit, filters, sort);
+      // return noCount(
+      //   Admin, page, limit, filters, sort
+      // );
+      // return cursor(Admin, cursors, limit, filters, sort);
+    }),
   },
 };
 
@@ -67,17 +84,21 @@ const isAuthenticated = () => (next) => (parent, args, context, info) => {
   return next(parent, args, context, info);
 };
 
+const hasRole = (role) => (next) =>
+  asyncHandler(async (root, args, context, info) => {
+    let adminId = info.adminId;
+    const admin = await Admin.findById(adminId);
+    checkAdminExist(admin);
+    authorise(false, admin, role);
+    info.admin = admin;
+
+    return next(root, args, context, info);
+  });
+
 const resolversComposition = {
-  "Mutation.uploadProfile": [isAuthenticated()],
+  "Mutation.uploadProfile": [isAuthenticated(), hasRole("user")],
+  "Query.paginateAdmins": [isAuthenticated(), hasRole("user")],
 };
 
 const composedResolvers = composeResolvers(resolvers, resolversComposition);
 module.exports = composedResolvers;
-
-// const hasRole = (role: string) => next => (root, args, context, info) => {
-//   if (!context.currentUser.roles?.includes(role)) {
-//     throw new Error('You are not authorized!')
-//   }
-
-//   return next(root, args, context, info)
-// }

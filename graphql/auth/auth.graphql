@@ -8,19 +8,6 @@ type Otp {
   updatedAt: String!
 }
 
-type Admin {
-  _id: ID!
-  name: String
-  phone: String!
-  role: String
-  status: String
-  lastLogin: String
-  error: Int
-  profile: String
-  createdAt: String!
-  updatedAt: String!
-}
-
 type PhoneCheckResponse {
   message: String!
   phone: String!
@@ -61,10 +48,6 @@ input AuthUser {
 input RefreshTokenInput {
   userId: ID!
   randomToken: String!
-}
-
-type Query {
-  admins: Admin!
 }
 
 type Mutation {

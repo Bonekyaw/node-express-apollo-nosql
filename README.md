@@ -14,7 +14,9 @@ In this template
    - JWT auth
    - bcrypt
    - express-validator 
-   - error handler etc.
+   - error handler 
+   - Authorization
+   - Pagination etc.
 
 In order to use it,
 
